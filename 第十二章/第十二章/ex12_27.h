@@ -35,13 +35,14 @@ using namespace std;
 
 */
 
-using Mymap = map<string, set<unsigned int>>;
-class QueryResult;
 
+class QueryResult;
 class TextQuery
 {
 public:
 	friend class QueryResult;
+	using lineNo = vector<string>::size_type;
+	using mymap = map<string, set<lineNo>>;
 
 public:
 	TextQuery(ifstream &infile)
@@ -53,7 +54,7 @@ public:
 	/*void BuildSet(vector<string>& text_lin, map<string, set<size_t>> &mp)		//创建单词的 行号set
 	{
 		auto vit = text_lin.begin();								//遍历 vector 中的每一行 同时使用 line 迭代行号
-		unsigned int line = 1;
+		lineNo line = 1;
 		for (; vit != text_lin.end(); ++vit, ++line)
 		{
 			auto mpit = mp.begin();									//遍历 map 中的 word
@@ -64,25 +65,26 @@ public:
 			}
 		}
 	}*/
+
 	//此函数实现向 m_mp 中添加 word 的同时 更新word对应的 set
-	void InsertMap(map<string, set<unsigned int>> &mp,string &word, unsigned int &lineNo)
+	void InsertMap(mymap &mp,string &word, lineNo &line_No)
 	{//此函数实现向 m_mp 中添加 word 的同时 更新word对应的 set
 		set <unsigned int> tmp = {};
-		auto p = mp.emplace(pair<string, set<unsigned int>>(word, tmp));	//p是一个 pair<mp::iterator,bool>
-		(p.first)->second.insert(lineNo);							//p中的迭代器指向新插入的元素或者已经存在的元素
+		auto p = mp.emplace(pair<string, set<lineNo>>(word, tmp));	//p是一个 pair<mp::iterator,bool>
+		(p.first)->second.insert(line_No);							//p中的迭代器指向新插入的元素或者已经存在的元素
 	}
-
+	
 	//用于保存单词到 map
 	void SaveWord(vector<string>& text_lin, string &line)		//用于保存单词到 map
 	{
-		unsigned int lineNo = 0;			//设置行号迭代
+		lineNo line_No = 0;			//设置行号迭代
 		for (auto &lin : text_lin)
 		{
-			++lineNo;
+			++line_No;
 			istringstream stream_in(line);
 			string word;
 			stream_in >> word;				//保存每个单词
-			InsertMap(m_mp, word, lineNo);
+			InsertMap(m_mp, word, line_No);
 		}
 	}
 
@@ -97,44 +99,53 @@ public:
 	}
 
 	//执行查询的操作
-	TextQuery& QueryWord(string &s) { QueryResult(*this, s); }
+	QueryResult QueryWord(string &s)
+	{
+		int cnt = 0;
+		for (auto &i : m_vc_txt)
+		{
+			cnt += count(i.begin(), i.end(), s);
+		}
+		static set<vector<string>::size_type> nodata{};		//空 set 表示没有找到单词
+		auto loc = m_mp.find(s);
+		if (loc == m_mp.end())
+		{
+			return	QueryResult(m_vc_txt, nodata, s, cnt);
+		}
+		else
+			return QueryResult(m_vc_txt, loc->second, s, cnt);
+	}
 
 	
 private:
 	vector<string>		m_vc_txt;
-	Mymap				m_mp;
+	mymap				m_mp;
 };
 
 class QueryResult
 {
 public:
-	QueryResult() { ; }
-	QueryResult(TextQuery &textqury, string &s)
-	{ 
-		m_word = s;
-		//确定出现次数
-		m_count = 0;
-		for (auto &vit : textqury.m_vc_txt)
-		{
-			m_count += count(vit.begin(), vit.end(), s);
-		}
-
-	}
-
-	//打印查询结果
-	ostream& print(ostream &os, TextQuery &query)
-	{
-		os << m_word << "occurs" << m_count <<  (m_count > 1 ? "times" : "time") << endl;
-		for (auto & lineNO : query.m_mp[m_word])
-		{
-			os << "(line " << lineNO << ")\t" << query.m_vc_txt[lineNO-1]<< endl;
-		}
-		return os;
-	}
-
+	friend ostream& print(ostream &os, QueryResult &query);
+public:
+	QueryResult(vector<string> &txt, set<vector<string>::size_type> &line_no, string &s, int &cnt) :
+		m_word(s),
+		m_line(line_no),
+		m_text(txt),
+		m_count(cnt){}
 private:
-	int					m_count;
-	set<unsigned int>	m_line;
-	string				m_word;
+	vector<string>					m_text;
+	set<vector<string>::size_type>	m_line;
+	string							m_word;
+	int								m_count;
 
 };
+//打印查询结果
+ostream& print(ostream &os, QueryResult &query)
+{
+	os << query.m_word << "occurs" << query.m_count << (query.m_count > 1 ? "times" : "time") << endl;
+	for (auto & line : query.m_line)
+	{
+		os << "\t(line " << line << ")\t" << *((query.m_text).begin() + line -1) << endl;
+	}
+	return os;
+}

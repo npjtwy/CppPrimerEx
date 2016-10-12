@@ -1,10 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <algorithm>
 #include "ex12_27.h"
+#include <fstream>
 using  namespace std;
 /*
 文本查询程序完成以下的任务：
@@ -32,7 +29,7 @@ using  namespace std;
 
 */
 
-/*
+
 void runQueries( ifstream &infile)
 {
 	TextQuery tq(infile);		//保存文件 并建立查询 map
@@ -41,15 +38,16 @@ void runQueries( ifstream &infile)
 	{
 		cout << "enter word to look for, or q to quit: ";
 		string s;
-		if (!(cin >> s) || s ==	"q") break;
+		if (!(cin >> s) || s ==	"q")  break;
 
-		QueryResult.print(cout, tq.QueryWord(s)) << endl;		//打印查询结果
+		print(cout, tq.QueryWord(s)) << endl;		//打印查询结果
 	}
-}*/
+}
 
 int main()
 {
-	
+	ifstream infile("input_file.txt");
+	runQueries(infile);
 	
 	system("pause");
 	return 0;
