@@ -10,7 +10,7 @@
 #include <memory>
 #include <exception>
 using  namespace std;
-/*Ex12_2 编写自己的 StrBlob 类
+/*Ex12_22 调用 const StrBlob 类
 */
 
 class ConstStrBlobPtr;

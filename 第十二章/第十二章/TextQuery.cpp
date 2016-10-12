@@ -1,4 +1,4 @@
-#include "ex12_27.h"
+#include "TextQuery.h"
 #include <sstream>
 #include <algorithm>
 #include <iterator>

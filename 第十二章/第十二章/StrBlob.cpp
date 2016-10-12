@@ -1,4 +1,4 @@
-#include "Ex12_2.h"
+#include "StrBlob.h"
 StrBlobPtr StrBlob::begin()
 {
 	return StrBlobPtr(*this);

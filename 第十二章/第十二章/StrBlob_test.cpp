@@ -1,4 +1,4 @@
-#include "ex12_02.h"
+#include "StrBlob.h"
 #include <iostream>
 
 int main()
@@ -9,4 +9,6 @@ int main()
     std::cout << csb.front() << " " << csb.back() << std::endl;
     sb.back() = "pezy";
     std::cout << sb.front() << " " << sb.back() << std::endl;
+    system("pause");
+		return 0;
 }

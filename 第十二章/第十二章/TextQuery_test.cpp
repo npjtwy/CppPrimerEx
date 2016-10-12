@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include "ex12_27.h"
+#include "TextQuery.h"
 #include <fstream>
 using  namespace std;
 /*
