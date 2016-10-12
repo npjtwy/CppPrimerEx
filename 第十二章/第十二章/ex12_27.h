@@ -8,7 +8,6 @@
 #include <sstream>
 #include <utility>
 #include <algorithm>
-using namespace std;
 /*
 	文本查询程序完成以下的任务：
 		当程序读取输入文件时，必须记住单词出现的每一行，因此 需要逐行读取输入文件 并将每一行分解为独立的单词
@@ -35,15 +34,15 @@ using namespace std;
 
 */
 
+/*
 
 class QueryResult;
 class TextQuery
 {
 public:
-	friend class QueryResult;
 	using lineNo = vector<string>::size_type;
 	using mymap = map<string, set<lineNo>>;
-
+	QueryResult QueryWord(string &s);
 public:
 	TextQuery(ifstream &infile)
 	{
@@ -64,7 +63,7 @@ public:
 					mpit->second.insert(line);
 			}
 		}
-	}*/
+	}
 
 	//此函数实现向 m_mp 中添加 word 的同时 更新word对应的 set
 	void InsertMap(mymap &mp,string &word, lineNo &line_No)
@@ -98,29 +97,31 @@ public:
 		return m_vc_txt;
 	}
 
-	//执行查询的操作
-	QueryResult QueryWord(string &s)
-	{
-		int cnt = 0;
-		for (auto &i : m_vc_txt)
-		{
-			cnt += count(i.begin(), i.end(), s);
-		}
-		static set<vector<string>::size_type> nodata{};		//空 set 表示没有找到单词
-		auto loc = m_mp.find(s);
-		if (loc == m_mp.end())
-		{
-			return	QueryResult(m_vc_txt, nodata, s, cnt);
-		}
-		else
-			return QueryResult(m_vc_txt, loc->second, s, cnt);
-	}
-
+	
 	
 private:
 	vector<string>		m_vc_txt;
 	mymap				m_mp;
 };
+
+//执行查询的操作
+QueryResult TextQuery::QueryWord(string &s)
+{
+	int cnt = 0;
+	for (auto &i : m_vc_txt)
+	{
+		cnt += count(i.begin(), i.end(), s);
+	}
+	static set<vector<string>::size_type> nodata{};		//空 set 表示没有找到单词
+	auto loc = m_mp.find(s);
+	if (loc == m_mp.end())
+	{
+		return	QueryResult(m_vc_txt, nodata, s, cnt);
+	}
+	else
+		return QueryResult(m_vc_txt, loc->second, s, cnt);
+}
+
 
 class QueryResult
 {
@@ -149,3 +150,32 @@ ostream& print(ostream &os, QueryResult &query)
 	}
 	return os;
 }
+*/
+using line_no = std::set<std::vector<std::string>>::size_type;
+
+class QueryResult;
+class TextQuery
+{
+public:
+	TextQuery(std::ifstream &infile);	//构造函数
+	QueryResult query(const std::string &s) const;
+
+private:
+	std::shared_ptr<std::vector<std::string>>						m_file;	//保存输入文件
+	std::map<std::string, std::shared_ptr<std::set<line_no>>>		m_mp;	//保存单词和 对应行号的 set
+};
+
+class QueryResult
+{
+public:
+	friend std::ostream& print(std::ostream&, const QueryResult&);
+	QueryResult(const std::string& s, std::shared_ptr<std::set<line_no>> set,
+		std::shared_ptr<std::vector<std::string>> v, int &cnt)
+		: m_word(s), m_line(set), m_qr_file(v), m_count(cnt)
+	{}
+private:
+	std::string									m_word;		//记录要查询的单词
+	std::shared_ptr<std::vector<std::string>>	m_qr_file;	
+	std::shared_ptr<std::set<line_no>>			m_line;		//行号 set
+	int											m_count;	//单词出现的次数
+};

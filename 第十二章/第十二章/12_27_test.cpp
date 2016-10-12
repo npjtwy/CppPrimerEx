@@ -40,7 +40,7 @@ void runQueries( ifstream &infile)
 		string s;
 		if (!(cin >> s) || s ==	"q")  break;
 
-		print(cout, tq.QueryWord(s)) << endl;		//打印查询结果
+		print(cout, tq.query(s)) << endl;		//打印查询结果
 	}
 }
 
