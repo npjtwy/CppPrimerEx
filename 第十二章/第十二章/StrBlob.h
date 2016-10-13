@@ -27,6 +27,11 @@ public:
 	StrBlob();
 	StrBlob(std::initializer_list<std::string> il);
 	size_type size() { return data->size(); }
+
+	//拷贝构造和赋值构造
+	StrBlob(const StrBlob& obj);
+	StrBlob& operator=(const StrBlob& obj);
+
 	//添加和删除元素
 	void push_back(const string &t) { return data->push_back(t); }
 	void pop_back();
@@ -45,6 +50,19 @@ private:
 //两个构造函数
 StrBlob::StrBlob() : data(make_shared<std::vector<std::string>>()) { }
 StrBlob::StrBlob(std::initializer_list<std::string> il) : data(make_shared<std::vector<std::string>>(il)) {}
+
+//拷贝和赋值构造
+StrBlob::StrBlob(const StrBlob& obj)
+{
+	data = make_shared<vector<string>>(new vector<string>(*obj.data));
+}
+StrBlob& StrBlob::operator=(const StrBlob& obj)
+{
+	auto newdata = make_shared<vector<string>>(new vector<string>(*obj.data));
+	data = newdata;
+	newdata = nullptr;
+}
+
 //检查是否越界
 void StrBlob::check(size_type i, const std::string &msg) const {
 	if (i >= data->size())
