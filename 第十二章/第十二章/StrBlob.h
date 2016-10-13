@@ -12,11 +12,10 @@ using  namespace std;
 */
 class StrBlobPtr;
 class ConstStrBlobPtr;
+
 class StrBlob
 {
-
 public:
-	
 	typedef std::vector<std::string>::size_type size_type; 
 	friend class StrBlobPtr;
 	friend class ConstStrBlobPtr;
@@ -24,10 +23,10 @@ public:
 	StrBlobPtr end();
 
 public:
-	StrBlob();
+	StrBlob() : data(make_shared<std::vector<std::string>>()) { }
 	StrBlob(std::initializer_list<std::string> il);
-	size_type size() { return data->size(); }
-
+	
+	size_type size();
 	//拷贝构造和赋值构造
 	StrBlob(const StrBlob& obj);
 	StrBlob& operator=(const StrBlob& obj);
@@ -47,55 +46,7 @@ private:
 	//检查 data[i] 是否合法， 否则抛出异常
 	void check(size_type i, const std::string &msg) const;
 };
-//两个构造函数
-StrBlob::StrBlob() : data(make_shared<std::vector<std::string>>()) { }
-StrBlob::StrBlob(std::initializer_list<std::string> il) : data(make_shared<std::vector<std::string>>(il)) {}
-
-//拷贝和赋值构造
-StrBlob::StrBlob(const StrBlob& obj)
-{
-	data = make_shared<vector<string>>(new vector<string>(*obj.data));
-}
-StrBlob& StrBlob::operator=(const StrBlob& obj)
-{
-	auto newdata = make_shared<vector<string>>(new vector<string>(*obj.data));
-	data = newdata;
-	newdata = nullptr;
-}
-
-//检查是否越界
-void StrBlob::check(size_type i, const std::string &msg) const {
-	if (i >= data->size())
-	{
-		throw out_of_range(msg);
-	}
-}
-
-
-void StrBlob::pop_back() {
-	check(0, "pop_back on empty StrBlob");
-	data->pop_back();
-}
-
-const string& StrBlob::front() const{
-	check(0, "pop_back on empty StrBlob");
-	return data->front();
-}
-
-const std::string& StrBlob::back() const{
-	check(0, "pop_back on empty StrBlob");
-	return data->back();
-}
-
-string& StrBlob::front() {
-	check(0, "pop_back on empty StrBlob");
-	return data->front();
-}
-
-std::string& StrBlob::back() {
-	check(0, "pop_back on empty StrBlob");
-	return data->back();
-}
+//============================================================================
 
 class StrBlobPtr
 {
@@ -105,35 +56,12 @@ public:
 
 	string& deref() const;		//解引用
 	StrBlobPtr& incr();			//前缀递增
-	bool operator!=(const StrBlobPtr& p) { return p.curr != curr; }
+	bool operator!=(const StrBlobPtr& p);
 private:
 	weak_ptr<vector<string>> wptr;
 	size_t curr;
 	//保存string在数组中的当前位置
 	shared_ptr<vector<string>> check(size_t, const string&) const;
 };
-shared_ptr<vector<string>> StrBlobPtr::check(size_t i, const string &msg) const
-{
-	auto ret = wptr.lock();			//判断 wptr 所指的对象是否还在
-	if (!ret)
-	{
-		throw std::runtime_error("unbound StrBlobPtr");
-	}
-	if (i >= ret->size())
-	{
-		throw out_of_range(msg);
-	}
-	return ret;						//返回指向 vector 的 shared_ptr
-}
 
-string& StrBlobPtr::deref() const{
-	auto p = check(curr, "dereference past end");
-	return (*p)[curr];
-}
-//返回递增后的对象的引用
-StrBlobPtr& StrBlobPtr::incr(){
-	check(curr, "increment past end of StrBlobPtr");
-	++curr;
-	return *this;
-}
 #endif
