@@ -4,11 +4,13 @@
 #include <string>
 #include <memory>
 #include <utility>
+#include <initializer_list>
 //简化版 vector 类 只存取 string 元素
 
 class StrVec
 {
 public:
+	StrVec(std::initializer_list<std::string> l);
 	StrVec () : elements(nullptr), first_free(nullptr), cap(nullptr) {}
 	StrVec(const StrVec&);
 	StrVec &operator=(const StrVec&);

@@ -1,6 +1,13 @@
 #include "StrVec.h"
 
 std::allocator<std::string> StrVec::alloc;
+StrVec::StrVec(std::initializer_list<std::string> l)		//接受 initializer_list 参数构造函数
+{
+	auto p = alloc_n_copy(l.begin(), l.end());		//开辟新的内存
+	this->elements = p.first;
+	this->first_free = p.second;
+	this->cap = p.second;
+}
 StrVec::StrVec(const StrVec &sv) {
 	auto p = alloc_n_copy(sv.begin(), sv.end());		//开辟新的内存
 	this->elements = p.first;
