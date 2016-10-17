@@ -21,11 +21,15 @@ public:
 	size_t capacity() const;
 	std::string *begin()const;
 	std::string *end()const;
+	void resize(size_t & t, std::string s);		//改变容器中元素的多少
+	void reserve(size_t &t);		//当需求超过当前容量时会改变容器大小
+	
 private:
 	static std::allocator<std::string> alloc;		//分配元素
 	void chk_n_alloc();								//工具函数 被拷贝控制函数所使用
 	void free();		//销毁元素并释放内存
 	void reallocate();	//当内存不够用 获取更多内存并拷贝已有的元素
+	
 	std::pair<std::string*, std::string*> alloc_n_copy
 		(const std::string*, const std::string*);		//分配内存 并拷贝制定范围内的元素
 	std::string *elements;		//指向数组首元素的指针

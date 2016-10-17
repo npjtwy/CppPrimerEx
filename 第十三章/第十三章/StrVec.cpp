@@ -48,6 +48,24 @@ size_t StrVec::size() const { return first_free - elements; }
 size_t StrVec::capacity() const { return cap - elements; }
 std::string* StrVec::begin() const { return elements; }
 std::string* StrVec::end() const { return first_free; }
+void StrVec::reserve(size_t &t)
+{
+	if (t > capacity())		//当需求容量超过当前容量时分配内存
+	{
+		auto newcapacity = t;
+		//分配新的内存
+		auto newdata = alloc.allocate(newcapacity);
+		//将数据从旧内存移动到新的内存
+		auto dest = newdata;		//指向新数组中下一个空闲的位置
+		auto elem = elements;		//指向旧数组中的下一个元素 用于迭代
+		for (size_t i = 0; i != size(); ++i)
+			alloc.construct(dest++, std::move(*elem++));
+		free();
+		elements = newdata;
+		first_free = dest;
+		cap = elements + newcapacity;
+	}
+}
 //检查当前容量  在添加元素时使用
 void StrVec::chk_n_alloc()								
 {
@@ -83,3 +101,27 @@ void StrVec::reallocate()
 	cap = elements + newcapacity;
 }
 
+void StrVec::resize(size_t &t, std::string s = "")
+{
+	if (t > size())		//resize 大于先存元素个数
+	{
+		if (t > capacity())		//resize 大于当前容量 则要重新分配内存
+		{
+			reallocate();
+		}
+		//再构造元素
+		for (auto i = first_free; size() < t; ++i)
+		{
+			alloc.construct(i, s);
+			++first_free;
+		}
+	}
+	else if (t < size())
+	{
+		for (auto i = first_free; size() > t;)		//从后向前销毁元素
+		{
+			alloc.destroy(--i);
+			--first_free;
+		}
+	}
+}
