@@ -8,26 +8,25 @@ String::String(char * p)
 {
 	size_t sz=0;
 	for (auto i = p; *i != '\0'; ++i) sz++;
-	sz++;		//包含 ‘\0'在内的元素个数
 	elements = alloc.allocate(sz);		//elements 指向内存开始时位置
 	first_free = elements;
 	for (auto i = p; *i != '\0' ; ++i)
 	{
 		alloc.construct(first_free++, *i);
 	}
-	alloc.construct(first_free++, '\0');
+	//alloc.construct(first_free++, '\0');
 }
 String::String(const String &s)
 {
 
-	elements = alloc.allocate(s.size() + 1);
+	elements = alloc.allocate(s.size());
 	first_free = elements;
 	allocate_n_copy(s.begin(), s.end());
 }
 
 String& String::operator=(const String &rhs)
 {
-	auto newdata = alloc.allocate(rhs.size() + 1);
+	auto newdata = alloc.allocate(rhs.size());
 	auto first = newdata;
 	for (auto i = rhs.begin(); i != rhs.end(); ++i)
 	{
@@ -43,6 +42,21 @@ String& String::operator=(const String &rhs)
 String::~String()
 {
 	free();
+}
+String::String(String && s) : elements(s.elements), first_free(s.first_free)
+{
+	s.elements = s.first_free = nullptr;
+}
+String & String::operator=(String && s)
+{
+	if (this != &s)
+	{
+		elements = s.elements;
+		first_free = s.first_free;
+		s.elements = nullptr;
+		s.first_free = nullptr;
+	}
+	return *this;
 }
 // 构造范围内元素
 void String::allocate_n_copy(char *fir, char *lst)
@@ -72,5 +86,5 @@ char * String::end()const
 }
 size_t String::size()const		//size() 返回不包含 '\0' 的元素个数
 {
-	return end() - begin() - 1;
+	return end() - begin();
 }

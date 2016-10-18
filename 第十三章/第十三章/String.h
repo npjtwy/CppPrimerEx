@@ -2,7 +2,7 @@
 // 简化版 std::string 
 #include <memory>
 #include <iostream>
-
+#include <utility> //std::move
 class String
 {
 public:
@@ -11,6 +11,9 @@ public:
 	String& operator=(const String&);
 	String(char *p);
 	~String();
+	//添加移动构造函数
+	String(String &&s);
+	String& operator=(String &&s);
 	void free();
 	char* begin()const;
 	char* end()const;

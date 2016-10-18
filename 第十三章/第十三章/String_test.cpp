@@ -1,5 +1,6 @@
 #include "String.h"
 #include <iostream>
+#include <string>
 using namespace std;
 int main()
 {
@@ -7,24 +8,31 @@ int main()
 	cout << *s.begin() << endl;
 	for (auto i : s)
 	{
-		cout << i << " ";
+		cout << i  ;
 	}
-	cout << endl;
+	
 
 	String s1("world");
 	s1 = s;
 	for (auto i : s1)
 	{
-		cout << i << " ";
+		cout << i  ;
 	}
-	cout << endl;
+	
 
 	String s2(s);
 	for (auto i : s2)
-	{
-		cout << i << " ";
+	{ 
+		cout << i  ;
 	}
-	cout << endl;
+	
+
+	String s3 = std::move(s1);
+	for (auto i : s3)
+	{
+		cout << i  ;
+	}
+	std::cout << std::endl;
 	system("pause");
 	return 0;
 }
