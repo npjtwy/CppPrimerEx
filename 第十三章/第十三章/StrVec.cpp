@@ -98,6 +98,7 @@ void StrVec::free()
 	}
 }
 //当内存不够用 获取更多内存并拷贝已有的元素
+/*
 void StrVec::reallocate()
 {
 	//每次分配当前空间两倍大小的新空间
@@ -112,6 +113,25 @@ void StrVec::reallocate()
 	free();
 	elements = newdata;
 	first_free = dest;
+	cap = elements + newcapacity;
+}
+*/
+// 使用移动迭代器 将源对象的元素移动构造到新分配的内存 避免了拷贝操作提升性能
+void StrVec::reallocate()
+{
+	//每次分配当前空间两倍大小的新空间
+	auto newcapacity = size() ? 2 * size() : 1;
+	//分配新的内存
+	auto first = alloc.allocate(newcapacity);
+	// 移动元素
+	auto last = uninitialized_copy(make_move_iterator(begin()),
+		make_move_iterator(end()),
+		first);		/*make_move_iterator()将普通的迭代器转换成移动迭代器 使得 uninitialized_copy 函数
+					  对序列的每个元素调用 construct 时采用移动构造*/
+
+	free();
+	elements = first;
+	first_free = last;
 	cap = elements + newcapacity;
 }
 
