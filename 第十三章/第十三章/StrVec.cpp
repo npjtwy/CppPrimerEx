@@ -1,5 +1,6 @@
 #include "StrVec.h"
 #include <algorithm>
+#include <iostream>
 std::allocator<std::string> StrVec::alloc;
 StrVec::StrVec(std::initializer_list<std::string> l)		//接受 initializer_list 参数构造函数
 {
@@ -31,6 +32,31 @@ StrVec::~StrVec()
 {
 	free();
 }
+//移动构造函数
+StrVec::StrVec(StrVec &&sv) noexcept
+{
+	elements		= sv.elements;
+	first_free		= sv.first_free;
+	cap				= sv.cap;
+	sv.elements		= nullptr;
+	sv.first_free	= nullptr;
+	sv.cap			= nullptr;
+}
+StrVec& StrVec::operator=(StrVec && rhs) noexcept
+{
+	if (this != &rhs)		//自赋值检查
+	{
+		system("pause");
+		free();
+		// 调用 move_alloc_n_copy
+		elements	= rhs.elements;
+		first_free	= rhs.first_free;
+		cap			= rhs.cap;
+		rhs.elements = rhs.first_free = rhs.cap = nullptr;
+		std::cout << "调用了移动赋值" << std::endl;
+	}
+	return *this;
+}
 //拷贝元素
 void StrVec::push_back(const std::string &s)
 {
@@ -49,6 +75,19 @@ std::pair<std::string*, std::string*> StrVec::alloc_n_copy
 	//初始化并返回一个 Pair 该 pair 由 data 和 uninitialized_copy 的返回值(指向最后一个构造元素之后的位置)构成
 	return{ data, uninitialized_copy(beg, ed, data) };
 }
+/*
+std::pair<std::string*, std::string*> StrVec::move_alloc_n_copy
+( const std::string *beg, const std::string *ed)
+{
+	auto data = alloc.allocate(ed - beg);
+	return{ data, uninitialized_copy(make_move_iterator(beg), make_move_iterator(ed), data) };
+}*/// 有问题问题 参数加 const 移动赋值调用报错
+/*
+1 > xutility(1970) : error C2440 : “return” : 
+无法从“const std::basic_string<char, std::char_traits<char>, std::allocator<char>>”
+转换为“std::basic_string<char, std::char_traits<char>, std::allocator<char>> &&”
+*/
+
 //当前数组中元素个数
 size_t StrVec::size() const { return first_free - elements; }
 //当前数组最大容量
@@ -125,9 +164,9 @@ void StrVec::reallocate()
 	auto first = alloc.allocate(newcapacity);
 	// 移动元素
 	auto last = uninitialized_copy(make_move_iterator(begin()),
-		make_move_iterator(end()),
-		first);		/*make_move_iterator()将普通的迭代器转换成移动迭代器 使得 uninitialized_copy 函数
-					  对序列的每个元素调用 construct 时采用移动构造*/
+		make_move_iterator(end()),first);		
+	/*make_move_iterator()将普通的迭代器转换成移动迭代器 使得 uninitialized_copy 函数
+	   对序列的每个元素调用 construct 时采用移动构造*/
 
 	free();
 	elements = first;

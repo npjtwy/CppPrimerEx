@@ -15,6 +15,10 @@ public:
 	StrVec(const StrVec&);
 	StrVec &operator=(const StrVec&);
 	~StrVec();
+	//移动构造函数
+	StrVec(StrVec&&) noexcept;
+	StrVec &operator=( StrVec && rhs) noexcept;
+
 	//拷贝元素
 	void push_back(const std::string&);		
 	//当前数组中元素个数
@@ -34,6 +38,7 @@ private:
 	
 	std::pair<std::string*, std::string*> alloc_n_copy
 		(const std::string*, const std::string*);		//分配内存 并拷贝制定范围内的元素
+	//alloc_n_copy 的移动构造版本  使用移动构造元素
 	std::string *elements;		//指向数组首元素的指针
 	std::string *first_free;	//指向数组第一个空闲元素的指针
 	std::string *cap;			//指向数组尾后的指针
