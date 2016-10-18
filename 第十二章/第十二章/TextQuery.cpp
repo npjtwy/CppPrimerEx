@@ -27,6 +27,15 @@ TextQuery::TextQuery(std::ifstream &infile) : m_file(new std::vector<std::string
 		}
 	}
 }
+//拷贝构造
+/*
+TextQuery::TextQuery(const TextQuery &obj)
+{
+	m_file = obj.m_file;
+	m_mp = obj.m_mp
+}*/
+
+
 //查询 单词
 QueryResult TextQuery::query(const std::string &s) const
 {

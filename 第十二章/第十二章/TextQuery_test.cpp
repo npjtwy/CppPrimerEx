@@ -48,7 +48,7 @@ int main()
 {
 	ifstream infile("input_file.txt");
 	runQueries(infile);
-	
+
 	system("pause");
 	return 0;
 }

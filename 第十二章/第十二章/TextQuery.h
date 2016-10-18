@@ -159,7 +159,6 @@ class TextQuery
 public:
 	TextQuery(std::ifstream &infile);	//构造函数
 	QueryResult query(const std::string &s) const;
-
 private:
 	std::shared_ptr<std::vector<std::string>>						m_file;	//保存输入文件
 	std::map<std::string, std::shared_ptr<std::set<line_no>>>		m_mp;	//保存单词和 对应行号的 set
