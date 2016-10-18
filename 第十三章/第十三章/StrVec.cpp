@@ -1,5 +1,5 @@
 #include "StrVec.h"
-
+#include <algorithm>
 std::allocator<std::string> StrVec::alloc;
 StrVec::StrVec(std::initializer_list<std::string> l)		//接受 initializer_list 参数构造函数
 {
@@ -83,10 +83,17 @@ void StrVec::free()
 {
 	if (elements)
 	{
+		
+/*
 		for (auto p = first_free; p != elements; )
 		{
 			alloc.destroy(--p);		//销毁元素
 		}
+		alloc.deallocate(elements, cap - elements);		//释放内存
+		*/
+
+		std::for_each(this->begin(), this->end(),
+			[](std::string p) {alloc.destroy(&p); });
 		alloc.deallocate(elements, cap - elements);		//释放内存
 	}
 }
@@ -108,7 +115,7 @@ void StrVec::reallocate()
 	cap = elements + newcapacity;
 }
 
-void StrVec::resize(size_t &t, std::string s = "")
+void StrVec::resize(size_t t, std::string s = "")
 {
 	if (t > size())		//resize 大于先存元素个数
 	{
