@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 #include <set>
+#include <utility>//std::move 操作
 class Folder;
 class Message
 {
@@ -16,6 +17,10 @@ public:
 	Message(const Message&);
 	Message& operator=(const Message&);
 	~Message();
+	//移动构造函数
+	Message(Message &&m);
+	//移动赋值运算符
+	Message& operator=(Message &&rhs);
 	//从给定Folder中添加或者删除 Message
 	void save(Folder&);
 	void remove(Folder&);
@@ -29,6 +34,8 @@ private:
 	void add_to_Folder(const Message &m);
 	//将 从指向本 Message 的folder中删除 本Message
 	void remove_from_Folders();
+	//从本 Message 中移动 Folder 指针 （移动构造函数使用）
+	void move_Folder(Message *m);
 private:
 	std::string			contents;		//消息文本
 	std::set<Folder*>	folders;		//包含本 Message 的 Folder

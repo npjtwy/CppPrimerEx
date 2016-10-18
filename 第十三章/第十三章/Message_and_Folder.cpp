@@ -40,6 +40,23 @@ Message::~Message()
 {
 	remove_from_Folders();	//从本 Message  folders 的每个Folder中删除指向本Message的指针
 }
+//移动构造函数
+Message::Message(Message && m) : contents(std::move(m.contents))
+{
+	move_Folder(&m);		//移动 folders 并更新 Folder指针
+}
+//移动赋值运算符
+Message & Message::operator=(Message && rhs)
+{
+	// TODO: 在此处插入 return 语句
+	if (this != &rhs)     //检查自赋值
+	{
+		remove_from_Folders();
+		contents = std::move(rhs.contents);
+		move_Folder(&rhs);		//重置 folders 指向本 Message
+	}
+	return *this;
+}
 
 void Message::add_to_Folder(const Message &m)
 {
@@ -56,6 +73,17 @@ void Message::remove_from_Folders()
 	{
 		f->remMsg(this);
 	}
+}
+//从本 Message 中移动 Folder 指针 （移动构造函数使用）
+void Message::move_Folder(Message * m)
+{
+	folders = std::move(m->folders);		//使用 set 的移动赋值运算符
+	for (auto f : folders)
+	{
+		f->remMsg(m);		//从 Folder 中删除旧的 Message
+		f->addMsg(m);		//将本 Message 添加到 Folder 中
+	}
+	m->folders.clear();		//清空 m 的 folders
 }
 
 inline
