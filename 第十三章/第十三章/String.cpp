@@ -18,7 +18,7 @@ String::String(char * p)
 }
 String::String(const String &s)
 {
-
+	std::cout << "调用copy构造" << std::endl;
 	elements = alloc.allocate(s.size());
 	first_free = elements;
 	allocate_n_copy(s.begin(), s.end());
@@ -46,9 +46,12 @@ String::~String()
 String::String(String && s) : elements(s.elements), first_free(s.first_free)
 {
 	s.elements = s.first_free = nullptr;
+	std::cout << "调用移动构造" << std::endl;
 }
 String & String::operator=(String && s)
 {
+	std::cout << "调用移动赋值" << std::endl;
+
 	if (this != &s)
 	{
 		elements = s.elements;
