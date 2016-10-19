@@ -20,7 +20,9 @@ public:
 	StrVec &operator=( StrVec && rhs) noexcept;
 
 	//拷贝元素
-	void push_back(const std::string&);		
+	void push_back(const std::string&);	
+	//移动元素版本
+	void push_back(std::string &&);
 	//当前数组中元素个数
 	size_t size() const;
 	//当前数组最大容量

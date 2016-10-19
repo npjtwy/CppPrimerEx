@@ -65,6 +65,11 @@ void StrVec::push_back(const std::string &s)
 	//然后创建新元素
 	alloc.construct(first_free++, s);
 }
+void StrVec::push_back(std::string &&s)
+{
+	chk_n_alloc();
+	alloc.construct(first_free++, std::move(s));
+}
 //工具函数 被拷贝控制函数所使用
 //分配内存 并拷贝制定范围内的元素
 std::pair<std::string*, std::string*> StrVec::alloc_n_copy
