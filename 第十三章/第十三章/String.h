@@ -5,6 +5,7 @@
 #include <utility> //std::move
 class String
 {
+	friend std::ostream& operator<< (std::ostream &os, const String &str);
 public:
 	String();
 	String(const String&);

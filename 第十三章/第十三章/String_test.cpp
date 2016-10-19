@@ -28,6 +28,8 @@ int main()
 		而当 vector 内存不足时 会分配内存 然后调用移动构造将元素移到新的内存 再调用拷贝构造
 		也就是说 vector 实际上只调用拷贝构造来构造新的元素
 	*/
+
+	cout << s5 << endl;
 	system("pause");
 	return 0;
 }

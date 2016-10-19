@@ -1,8 +1,7 @@
 #include "String.h"
 #include <algorithm>
 String::String()
-{
-}
+{}
 
 String::String(char * p)
 {
@@ -90,4 +89,10 @@ char * String::end()const
 size_t String::size()const		//size() 返回不包含 '\0' 的元素个数
 {
 	return end() - begin();
+}
+
+std::ostream& operator<< (std::ostream &os, const String &str)
+{
+	for (auto i : str) os << i;
+	return os;
 }
