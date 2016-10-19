@@ -2,14 +2,13 @@
 
 Sales_data::Sales_data(const std::string &s, unsigned n, double p) :
 	bookNo(s), units_sold(n), revenue(p * n) { }
-
 Sales_data::Sales_data() : Sales_data("", 0, 0) {  }
 Sales_data::Sales_data(std::string s) : Sales_data(s, 0, 0) {}
-
 Sales_data::Sales_data(std::istream &is) : Sales_data()
 {
 	is >> *this;
 }
+
 //拷贝构造函数
 Sales_data::Sales_data(const Sales_data &orig) :
 	bookNo(orig.bookNo),
@@ -54,7 +53,15 @@ std::istream& operator>>(std::istream &is, Sales_data &rhs)
 {
 	double price;
 	is >> rhs.bookNo >> rhs.units_sold >> price;
-	rhs.revenue = price * rhs.units_sold;
+	if (is)		//检出输入是否成功
+	{
+		rhs.revenue = price * rhs.units_sold;
+	}
+	else
+	{
+		std::cout << "input failed. The object is a default value." << std::endl;
+		rhs = Sales_data();		//输入失败时 对象被赋予默认的状态
+	}
 	return is;
 }
 //重载 + 运算符

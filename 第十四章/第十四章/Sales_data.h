@@ -2,8 +2,6 @@
 #include <string>
 #include <iostream>
 
-//了解委托构造函数的委托过程
-
 class Sales_data
 {
 
@@ -37,6 +35,3 @@ private:
 	unsigned units_sold = 0;
 	double revenue = 0.0;
 };
-
-
-
