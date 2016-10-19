@@ -7,6 +7,7 @@
 #include <initializer_list>
 #include <memory>
 #include <exception>
+#include <utility>//std::move
 using  namespace std;
 /*Ex12_2 编写自己的 StrBlob 类
 */
@@ -33,6 +34,7 @@ public:
 
 	//添加和删除元素
 	void push_back(const string &t) { return data->push_back(t); }
+	void push_back(string &&t) { return data->push_back(std::move(t)); }
 	void pop_back();
 	
 	//访问元素
