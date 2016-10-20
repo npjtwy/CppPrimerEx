@@ -96,3 +96,17 @@ std::ostream& operator<< (std::ostream &os, const String &str)
 	for (auto i : str) os << i;
 	return os;
 }
+
+bool operator==(const String &lhs, const String &rhs)
+{
+	if (lhs.size() != lhs.size()) return false;
+	for (auto i = lhs.begin(), j = rhs.begin(); i != lhs.end(); ++i, ++j)
+	{
+		if (*i != *j) return false;
+	}
+	return true;
+}
+bool operator!=(const String &lhs, const String &rhs)
+{
+	return !(lhs == rhs);
+}
