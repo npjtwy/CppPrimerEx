@@ -7,7 +7,12 @@ class String
 {
 	friend std::ostream& operator<< (std::ostream &os, const String &str);
 	friend bool operator==(const String &lhs, const String &rhs);
+	friend bool operator<(const String &lhs, const String &rhs);
+	friend bool operator>(const String &lhs, const String &rhs);
+	friend bool operator<=(const String &lhs, const String &rhs);
+	friend bool operator>=(const String &lhs, const String &rhs);
 	friend bool operator!=(const String &lhs, const String &rhs);
+
 
 public:
 	String();

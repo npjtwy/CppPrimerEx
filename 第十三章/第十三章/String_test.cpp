@@ -30,6 +30,11 @@ int main()
 	*/
 
 	cout << s5 << endl;
+	if (s3 < s4)
+	{
+		std::cout << "s3 < s4" << std::endl;
+	}
+
 	system("pause");
 	return 0;
 }
