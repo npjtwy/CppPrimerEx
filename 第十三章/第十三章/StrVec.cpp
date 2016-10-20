@@ -57,6 +57,14 @@ StrVec& StrVec::operator=(StrVec && rhs) noexcept
 	}
 	return *this;
 }
+StrVec & StrVec::operator=(std::initializer_list<std::string> il)
+{
+	auto data = alloc_n_copy(il.begin(), il.end());
+	elements = data.first;
+	first_free = cap = data.second;
+	return *this;
+	// TODO: 在此处插入 return 语句
+}
 //拷贝元素
 void StrVec::push_back(const std::string &s)
 {

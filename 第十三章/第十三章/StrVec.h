@@ -15,8 +15,6 @@ class StrVec
 	friend bool operator> (const StrVec &lhs, const StrVec &rhs);
 	friend bool operator<=(const StrVec &lhs, const StrVec &rhs);
 	friend bool operator>=(const StrVec &lhs, const StrVec &rhs);
-
-
 public:
 	StrVec(std::initializer_list<std::string> l);
 	StrVec () : elements(nullptr), first_free(nullptr), cap(nullptr) {}
@@ -26,7 +24,8 @@ public:
 	//移动构造函数
 	StrVec(StrVec&&) noexcept;
 	StrVec &operator=( StrVec && rhs) noexcept;
-
+	//定义一个 initializer_list 赋值运算符
+	StrVec& operator=(std::initializer_list<std::string> il);
 	//拷贝元素
 	void push_back(const std::string&);	
 	//移动元素版本
