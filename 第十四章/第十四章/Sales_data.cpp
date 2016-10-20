@@ -72,3 +72,13 @@ Sales_data operator+(Sales_data &lhs, const Sales_data &rhs)
 	sum.combine(rhs);
 	return sum;
 }
+bool operator==(const Sales_data &lhs, const Sales_data &rhs)
+{
+	return lhs.bookNo	== rhs.bookNo &&
+		lhs.units_sold	== rhs.revenue &&
+		lhs.units_sold	== rhs.units_sold;
+}
+bool operator!=(const Sales_data &lhs, const Sales_data &rhs)
+{
+	return !(rhs == lhs);
+}

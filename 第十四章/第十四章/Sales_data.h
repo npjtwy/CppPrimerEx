@@ -11,6 +11,10 @@ class Sales_data
 	friend std::istream& operator>>(std::istream&, Sales_data&);
 	//重载 + 运算符
 	friend Sales_data operator+(Sales_data &lhs, const Sales_data &rhs);
+	//关系运算符
+	friend bool operator==(const Sales_data &lhs, const Sales_data &rhs);
+	friend bool operator!=(const Sales_data &lhs, const Sales_data &rhs);
+
 
 public:
 	//构造函数
