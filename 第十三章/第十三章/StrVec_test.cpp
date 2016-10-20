@@ -10,13 +10,18 @@ StrVec getSv(std::istream &is)
 }
 int main()
 {
+
 	{
 		StrVec sv{ "hell", "string" };
 		sv.push_back("niam");
 		StrVec sv1 = sv;
 		StrVec sv2 = std::move(sv);
 		StrVec sv3 = getSv(std::cin);
-
+		StrVec sv4 = { "hell", "string", "niam" };
+		if (sv1 == sv4)
+		{
+			std::cout << "yes" << std::endl;
+		}
 	}
 
 	system("pause");

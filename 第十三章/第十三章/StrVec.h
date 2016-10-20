@@ -9,6 +9,9 @@
 
 class StrVec
 {
+	friend bool operator==(const StrVec &lhs, const StrVec &rhs);
+	friend bool operator!=(const StrVec &lhs, const StrVec &rhs);
+
 public:
 	StrVec(std::initializer_list<std::string> l);
 	StrVec () : elements(nullptr), first_free(nullptr), cap(nullptr) {}

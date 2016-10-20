@@ -203,3 +203,17 @@ void StrVec::resize(size_t t, std::string s = "")
 		}
 	}
 }
+
+bool operator==(const StrVec &lhs, const StrVec &rhs)
+{
+	if (lhs.size() != rhs.size()) return false;
+	for (auto i = lhs.begin(), j = rhs.begin(); i != lhs.end(); ++i, ++j)
+	{
+		if (*i != *j)	return false;
+	}
+	return true;
+}
+bool operator!=(const StrVec &lhs, const StrVec &rhs)
+{
+	return !(lhs == rhs);
+}
