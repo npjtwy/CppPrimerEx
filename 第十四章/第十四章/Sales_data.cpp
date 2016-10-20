@@ -24,6 +24,20 @@ Sales_data& Sales_data::operator=(const Sales_data& rhs)
 	return *this;
 }
 
+Sales_data & Sales_data::operator+=(const Sales_data & rhs)
+{
+	this->revenue += rhs.revenue;// TODO: 在此处插入 return 语句
+	this->units_sold += rhs.units_sold;
+	return *this;
+}
+
+Sales_data & Sales_data::operator=(const std::string & str_isbn)
+{
+	//this->bookNo = str_isbn;  错的 应该创建一个新对象？？？
+	*this = Sales_data(str_isbn);
+	return *this;
+}
+
 double Sales_data::avg_price() const
 {
 	if (units_sold)

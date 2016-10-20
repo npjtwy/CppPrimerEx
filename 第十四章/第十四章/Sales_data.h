@@ -14,7 +14,7 @@ class Sales_data
 	//关系运算符
 	friend bool operator==(const Sales_data &lhs, const Sales_data &rhs);
 	friend bool operator!=(const Sales_data &lhs, const Sales_data &rhs);
-
+	
 
 public:
 	//构造函数
@@ -29,7 +29,10 @@ public:
 	
 	//重载运算符
 	Sales_data& operator=(const Sales_data& rhs);
-
+	//定义复合赋值运算符
+	Sales_data& operator+=(const Sales_data& rhs);
+	//将表示 ISBN 的 string 对象赋值给 Sales_data
+	Sales_data& operator=(const std::string &str_isbn);
 	std::string isbn() const { return bookNo; }
 	Sales_data& combine(const Sales_data&);
 	double avg_price() const;
