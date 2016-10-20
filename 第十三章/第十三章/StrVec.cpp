@@ -217,3 +217,20 @@ bool operator!=(const StrVec &lhs, const StrVec &rhs)
 {
 	return !(lhs == rhs);
 }
+bool operator< (const StrVec &lhs, const StrVec &rhs)
+{
+	return std::lexicographical_compare(lhs.begin(), lhs.end(),
+		rhs.begin(), rhs.end());
+}
+bool operator> (const StrVec &lhs, const StrVec &rhs)
+{
+	return rhs < lhs;
+}
+bool operator<=(const StrVec &lhs, const StrVec &rhs)
+{
+	return !(lhs < rhs);
+}
+bool operator>=(const StrVec &lhs, const StrVec &rhs)
+{
+	return !(rhs < lhs);
+}
