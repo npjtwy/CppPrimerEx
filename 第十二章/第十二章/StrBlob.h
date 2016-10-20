@@ -16,6 +16,9 @@ class ConstStrBlobPtr;
 
 class StrBlob
 {
+	friend bool operator==(const StrBlob &lhs, const StrBlob &rhs);
+	friend bool operator!=(const StrBlob &lhs, const StrBlob &rhs);
+
 public:
 	typedef std::vector<std::string>::size_type size_type; 
 	friend class StrBlobPtr;

@@ -86,3 +86,17 @@ StrBlobPtr StrBlob::end()
 {
 	return StrBlobPtr(*this, data->size());
 }
+
+bool operator==(const StrBlob &lhs, const StrBlob &rhs)
+{
+	if (lhs.data->size() != rhs.data->size()) return false;
+	for (auto i = lhs.data->begin(), j = rhs.data->begin(); i != lhs.data->end(); ++i, ++j)
+	{
+		if (*i != *j) return false;
+	}
+	return true;
+}
+bool operator!=(const StrBlob &lhs, const StrBlob &rhs)
+{
+	return !(lhs == rhs);
+}
