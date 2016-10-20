@@ -49,7 +49,23 @@ std::string& StrBlob::back() {
 }
 
 //============================================================================
-bool StrBlobPtr::operator!=(const StrBlobPtr& p) { return p.curr != curr; }
+bool operator!=(const StrBlobPtr &lhs, const StrBlobPtr &rhs) { return lhs.curr != rhs.curr; }
+bool operator==(const StrBlobPtr &lhs, const StrBlobPtr &rhs){ 
+	return !(lhs != rhs);
+}
+bool  operator<(const StrBlobPtr &lhs, const StrBlobPtr &rhs){ 
+	return lhs.curr < rhs.curr;
+}
+bool  operator>(const StrBlobPtr &lhs, const StrBlobPtr &rhs){ 
+	return rhs < lhs;
+}
+bool operator<=(const StrBlobPtr &lhs, const StrBlobPtr &rhs){
+	return !(rhs < lhs);
+}
+bool operator>=(const StrBlobPtr &lhs, const StrBlobPtr &rhs){ 
+	return !(lhs < rhs);
+}
+
 
 shared_ptr<vector<string>> StrBlobPtr::check(size_t i, const string &msg) const
 {
@@ -99,4 +115,22 @@ bool operator==(const StrBlob &lhs, const StrBlob &rhs)
 bool operator!=(const StrBlob &lhs, const StrBlob &rhs)
 {
 	return !(lhs == rhs);
+}
+bool operator<(const StrBlob &lhs, const StrBlob &rhs)
+{
+	//lexicographical_compare 按字典序比较两个序列
+	return std::lexicographical_compare(lhs.data->begin(), lhs.data->end(), 
+		rhs.data->begin(), rhs.data->end());
+}
+bool operator>(const StrBlob &lhs, const StrBlob &rhs)
+{
+	return rhs < lhs;
+}
+bool operator<=(const StrBlob &lhs, const StrBlob &rhs)
+{
+	return!(rhs < lhs);
+}
+bool operator>=(const StrBlob &lhs, const StrBlob &rhs)
+{
+	return !(rhs < rhs);
 }

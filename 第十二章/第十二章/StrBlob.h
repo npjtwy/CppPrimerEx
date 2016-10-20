@@ -8,6 +8,7 @@
 #include <memory>
 #include <exception>
 #include <utility>//std::move
+#include <algorithm> 
 using  namespace std;
 /*Ex12_2 编写自己的 StrBlob 类
 */
@@ -18,7 +19,10 @@ class StrBlob
 {
 	friend bool operator==(const StrBlob &lhs, const StrBlob &rhs);
 	friend bool operator!=(const StrBlob &lhs, const StrBlob &rhs);
-
+	friend bool operator<(const StrBlob &lhs, const StrBlob &rhs);
+	friend bool operator>(const StrBlob &lhs, const StrBlob &rhs);
+	friend bool operator<=(const StrBlob &lhs, const StrBlob &rhs);
+	friend bool operator>=(const StrBlob &lhs, const StrBlob &rhs);
 public:
 	typedef std::vector<std::string>::size_type size_type; 
 	friend class StrBlobPtr;
@@ -52,16 +56,22 @@ private:
 	void check(size_type i, const std::string &msg) const;
 };
 //============================================================================
-
+//StrBlob 的迭代器
 class StrBlobPtr
 {
+	friend bool operator!=(const StrBlobPtr &lhs, const StrBlobPtr &rhs);
+	friend bool operator==(const StrBlobPtr &lhs, const StrBlobPtr &rhs);
+	friend bool  operator<(const StrBlobPtr &lhs, const StrBlobPtr &rhs);
+	friend bool  operator>(const StrBlobPtr &lhs, const StrBlobPtr &rhs);
+	friend bool operator<=(const StrBlobPtr &lhs, const StrBlobPtr &rhs);
+	friend bool operator>=(const StrBlobPtr &lhs, const StrBlobPtr &rhs);
 public:
 	StrBlobPtr() : curr(0) { }
 	StrBlobPtr(StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz) { }
 
 	string& deref() const;		//解引用
 	StrBlobPtr& incr();			//前缀递增
-	bool operator!=(const StrBlobPtr& p);
+	
 private:
 	weak_ptr<vector<string>> wptr;
 	size_t curr;
