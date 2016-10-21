@@ -65,6 +65,14 @@ StrVec & StrVec::operator=(std::initializer_list<std::string> il)
 	return *this;
 	// TODO: 在此处插入 return 语句
 }
+std::string & StrVec::operator[](std::size_t n)
+{
+	return elements[n];
+}
+const std::string & StrVec::operator[](std::size_t n) const
+{
+	return elements[n];
+}
 //拷贝元素
 void StrVec::push_back(const std::string &s)
 {

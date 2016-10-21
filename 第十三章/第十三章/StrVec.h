@@ -26,6 +26,9 @@ public:
 	StrVec &operator=( StrVec && rhs) noexcept;
 	//定义一个 initializer_list 赋值运算符
 	StrVec& operator=(std::initializer_list<std::string> il);
+	std::string& operator[](std::size_t n);
+	const std::string& operator[](std::size_t n) const;
+
 	//拷贝元素
 	void push_back(const std::string&);	
 	//移动元素版本
