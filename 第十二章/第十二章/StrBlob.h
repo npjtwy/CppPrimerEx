@@ -38,6 +38,9 @@ public:
 	//拷贝构造和赋值构造
 	StrBlob(const StrBlob& obj);
 	StrBlob& operator=(const StrBlob& obj);
+	std::string & operator[](std::size_t n);
+	const std::string & operator[](std::size_t n) const;
+
 
 	//添加和删除元素
 	void push_back(const string &t) { return data->push_back(t); }
@@ -71,7 +74,10 @@ public:
 
 	string& deref() const;		//解引用
 	StrBlobPtr& incr();			//前缀递增
-	
+
+	std::string& operator[](std::size_t n);
+	const ::string& operator[](std::size_t n) const;
+
 private:
 	weak_ptr<vector<string>> wptr;
 	size_t curr;

@@ -10,6 +10,8 @@ int main()
     sb.back() = "pezy";
     std::cout << sb.front() << " " << sb.back() << std::endl;
 	std::cout << (sb == csb ? "yes" : "no") << std::endl;
+
+	std::cout << csb[2] << std::endl;
     system("pause");
 		return 0;
 }

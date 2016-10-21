@@ -13,6 +13,18 @@ StrBlob& StrBlob::operator=(const StrBlob& obj)
 	return *this;
 }
 
+std::string & StrBlob::operator[](std::size_t n)
+{
+	check(n, "out of range.");
+	return (*data)[n];
+}
+
+const std::string & StrBlob::operator[](std::size_t n) const
+{
+	check(n, "out of range.");
+	return (*data)[n];
+}
+
 StrBlob::size_type StrBlob::size() { return data->size(); }
 
 //检查是否越界
@@ -90,6 +102,18 @@ StrBlobPtr& StrBlobPtr::incr() {
 	check(curr, "increment past end of StrBlobPtr");
 	++curr;
 	return *this;
+}
+
+std::string & StrBlobPtr::operator[](std::size_t n)
+{
+	auto p = check(n, "out of range.");
+	return (*p)[n];
+}
+
+const::string & StrBlobPtr::operator[](std::size_t n) const
+{
+	auto p = check(n, "out of range.");
+	return (*p)[n];
 }
 
 //=====================================================================================
