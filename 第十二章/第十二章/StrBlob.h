@@ -41,7 +41,6 @@ public:
 	std::string & operator[](std::size_t n);
 	const std::string & operator[](std::size_t n) const;
 
-
 	//Ìí¼ÓºÍÉ¾³ýÔªËØ
 	void push_back(const string &t) { return data->push_back(t); }
 	void push_back(string &&t) { return data->push_back(std::move(t)); }
@@ -77,7 +76,19 @@ public:
 
 	std::string& operator[](std::size_t n);
 	const ::string& operator[](std::size_t n) const;
-
+	StrBlobPtr& operator++();
+	StrBlobPtr& operator--();
+	StrBlobPtr operator++(int);
+	StrBlobPtr operator--(int);
+	std::string& operator*()const
+	{
+		auto p = check(curr, "dereference past end");
+		return (*p)[curr];
+	}
+	std::string* operator->()const
+	{
+		return &this->operator*();
+	}
 private:
 	weak_ptr<vector<string>> wptr;
 	size_t curr;

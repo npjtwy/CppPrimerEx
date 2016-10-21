@@ -77,7 +77,30 @@ bool operator<=(const StrBlobPtr &lhs, const StrBlobPtr &rhs){
 bool operator>=(const StrBlobPtr &lhs, const StrBlobPtr &rhs){ 
 	return !(lhs < rhs);
 }
-
+StrBlobPtr& StrBlobPtr::operator++()
+{
+	check(curr, "increment past end of StrBlobPtr");
+	++curr;
+	return *this;
+}
+StrBlobPtr& StrBlobPtr::operator--()
+{
+	check(curr, "increment past end of StrBlobPtr");
+	--curr;
+	return *this;
+}
+StrBlobPtr  StrBlobPtr::operator++(int)
+{
+	auto ret = *this;
+	++*this;
+	return ret;
+}
+StrBlobPtr  StrBlobPtr::operator--(int)
+{
+	auto ret = *this;
+	--*this;
+	return ret;
+}
 
 shared_ptr<vector<string>> StrBlobPtr::check(size_t i, const string &msg) const
 {
