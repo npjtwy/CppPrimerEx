@@ -23,6 +23,7 @@ public:
 	//添加移动构造函数
 	String(String &&s);
 	String& operator=(String &&s);
+	char& operator[](std::size_t n);
 	void free();
 	char* begin()const;
 	char* end()const;

@@ -60,6 +60,10 @@ String & String::operator=(String && s)
 	}
 	return *this;
 }
+char & String::operator[](std::size_t n)
+{
+	return elements[n];// TODO: 在此处插入 return 语句
+}
 // 构造范围内元素
 void String::allocate_n_copy(char *fir, char *lst)
 {
