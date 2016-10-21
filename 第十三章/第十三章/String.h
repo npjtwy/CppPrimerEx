@@ -24,6 +24,7 @@ public:
 	String(String &&s);
 	String& operator=(String &&s);
 	char& operator[](std::size_t n);
+	const char& operator[](std::size_t n) const;
 	void free();
 	char* begin()const;
 	char* end()const;
