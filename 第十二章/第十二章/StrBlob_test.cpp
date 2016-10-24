@@ -1,6 +1,20 @@
 #include "StrBlob.h"
 #include <iostream>
 
+//一个含有指向 StrBolbPtr 指针的类
+class Ptr_to_SBP
+{
+public:
+	Ptr_to_SBP(StrBlobPtr &item) : p(&item) {}
+	StrBlobPtr* operator->() const
+	{
+		return  this->p;
+	}
+private:
+	StrBlobPtr *p;
+};
+
+
 int main()
 {
     const StrBlob csb{"hello", "world", "pezy"};
@@ -18,6 +32,10 @@ int main()
 	*p = "hello";
 	std::cout << p->size() << std::endl;
 	std::cout << *p << std::endl;
+
+	Ptr_to_SBP ptr(p);
+
+	std::cout << ptr->deref() << std::endl;
 
 	
     system("pause");
