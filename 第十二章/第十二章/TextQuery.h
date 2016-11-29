@@ -8,6 +8,7 @@
 #include <sstream>
 #include <utility>
 #include <algorithm>
+#include "StrBlob.h"
 /*
 	文本查询程序完成以下的任务：
 		当程序读取输入文件时，必须记住单词出现的每一行，因此 需要逐行读取输入文件 并将每一行分解为独立的单词
@@ -154,6 +155,7 @@ ostream& print(ostream &os, QueryResult &query)
 using line_no = std::set<std::vector<std::string>>::size_type;
 
 class QueryResult;
+
 class TextQuery
 {
 public:

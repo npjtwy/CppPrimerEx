@@ -46,7 +46,7 @@ void runQueries( ifstream &infile)
 
 int main()
 {
-	ifstream infile("input_file.txt");
+	ifstream infile("Alice.txt");
 	runQueries(infile);
 
 	system("pause");
