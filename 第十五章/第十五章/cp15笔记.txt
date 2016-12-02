@@ -1,0 +1,50 @@
+15_25 ：
+		如果不定义Disc_quote的默认构造函数，
+		那么Bulk_quote对象的基类部分无法完成默认构造
+		
+changed the below to the inherited constructor for ex15.27.
+//! rules:  1. only inherit from the direct base class.
+//!         2. default,copy and move constructors can not inherit.
+//!         3. any data members of its own are default initialized.
+//!         4. the rest details are in the section section 15.7.4.
+    
+15_27 继承的构造函数
+派生类继承构造函数遵循以下规则：
+		1. 只从其直接基类继承构造函数
+		2. 默认，拷贝和移动构造函数不能被继承
+		3. 派生类的数据成员被默认初始化
+		
+
+15_32 当一个Query类型的对象被拷贝、移动、赋值或者销毁时，将会发生什么？
+
+copy:
+	当 Query 对象被拷贝时，会调用合成的拷贝构造函数，将源对象的
+数据成员拷贝到了新的对象中去。由于原对象中含有只能指针成员，因此新的
+对象的智能指针也会指向原对象指针所指地址，并且只能指针的计数+1.
+
+move：
+	当 Query 对象被拷贝时，会调用合成的移动构造函数。原对象指针成员
+被移动到新的对象，原指针计数减为0，新对象指针计数为1。
+
+赋值：和拷贝移动类似
+
+销毁： 
+	销毁时调用合成的析构函数，智能指针计数减为0，所指对象也会被销毁
+
+15_33 对 Query_base 对象的拷贝、赋值等操作取决于其派生类。Query_base 是一个抽象类。
+
+15_34
+
+(a)  （	Query -> WordQuery）* 3 ->  AndQuery -> BinaryQrery -> Query * 2 -> 
+	OrQuery -> BinaryQrery -> Query * 2
+
+(b)	cout<< q => q->rep() => OrQuery::rep() 继承自 BinaryQrery::rep() => rhs.rep() => WordQuery::rep()
+								      ||
+									=> lhs.rep() => AndQuery::rep() 继承自 BinaryQrery::rep() => rhs.rep() => WordQuery::rep()
+																||
+																  => lhs.rep() => WordQuery::rep()
+(c)	q.eval() => OrQuery.eval() => WordQuery.eval("wind")
+				||
+				   => AndQuery.eval => WordQuery.eval("fiery")
+					   	  ||
+						    => WordQuery.eval("bird")
