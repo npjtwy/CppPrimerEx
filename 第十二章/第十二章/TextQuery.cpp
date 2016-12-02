@@ -18,7 +18,8 @@ TextQuery::TextQuery(std::ifstream &infile) : m_file(new std::vector<std::string
 			//检查 word 中是否包含标点 如果有 去掉后再保存
 			remove_copy_if(word.begin(), word.end(), back_inserter(new_word), ispunct);
 
-			auto &line_set = m_mp[new_word];		// line_set 指向当前 word 的set 如果 第一次插入word 则 line_set 为空
+			// line_set 指向当前 word 的set 如果 第一次插入word 则 line_set 为空
+			auto &line_set = m_mp[new_word];		
 			if (!line_set)
 				line_set.reset(new set<line_no>);		//当 word 第一次出现时 分配一个 set
 			line_set->insert(n);					//将当前行号存入 set
